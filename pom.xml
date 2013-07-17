@@ -1,0 +1,329 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>it.unitn.disi</groupId>
+    <artifactId>smatch-webapi-server</artifactId>
+    <version>1.0.0</version>
+    <packaging>jar</packaging>
+
+    <name>smatch-webapi-server</name>
+    <url>http://disi.unitn.it/~knowdive</url>
+	
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <comms.version>2.4.1-SNAPSHOT</comms.version>
+        <spring.version>3.1.0.RELEASE</spring.version>
+        <aspectj.version>1.6.10</aspectj.version>
+    </properties>
+
+    <profiles>
+        <profile>
+            <id>documentation</id>
+            <build>
+                <plugins>
+                    <!-- GENERATE JAVADOCS -->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-javadoc-plugin</artifactId>
+                        <version>2.9</version>
+                        <executions>               
+                            <execution>
+                                <phase>install</phase>
+                                <goals>
+                                    <goal>javadoc</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <!-- UPLOAD BROWSABLE JAVADOCS TO WEB SERVER -->
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>wagon-maven-plugin</artifactId>
+                        <version>1.0-beta-4</version>
+                        <executions>
+                            <execution>
+                                <phase>install</phase>
+                                <goals>
+                                    <goal>upload</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                        <configuration>
+                            <fromDir>${project.reporting.outputDirectory}/apidocs</fromDir> 
+                            <serverId>sweb-ssh</serverId>
+                            <url>scp://sweb.science.unitn.it</url>
+                            <toDir>/var/javadocs/${project.artifactId}/${project.version}</toDir>
+                        </configuration>
+                    </plugin>
+                    <!-- CREATE AND UPLOAD RELEASE NOTES AND MANUAL -->
+                    <plugin>
+                        <groupId>it.unitn.disi.tracmaven</groupId>
+                        <artifactId>tracmaven-plugin</artifactId>
+                        <version>1.4</version>
+                        <configuration>
+                            <tracUrl>https://sweb.science.unitn.it/trac/sweb/</tracUrl>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>generate-release-notes</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>release-notes</goal>
+                                </goals>
+                            </execution>
+                            <execution>
+                                <id>generate-manual</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>manual</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+    
+    <build>
+        <extensions>
+            <!-- Allows uploading browsable javadocs to remote server -->
+            <extension>
+                <groupId>org.apache.maven.wagon</groupId>
+                <artifactId>wagon-ssh</artifactId>
+                <version>1.0-beta-7</version>
+            </extension>
+        </extensions>
+        <plugins>
+            <plugin>
+                <groupId>it.unitn.disi.tracmaven</groupId>
+                <artifactId>tracmaven-plugin</artifactId>
+                <version>1.4</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>2.3.1</version>
+                <configuration>
+                    <source>1.6</source>
+                    <target>1.6</target>
+                </configuration>
+            </plugin>
+             <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <version>2.8</version>
+        <executions>
+          <execution>
+            <id>copy-dependencies</id>
+            <phase>package</phase>
+            <goals>
+              <goal>copy-dependencies</goal>
+            </goals>
+            <configuration>
+              <outputDirectory>${project.build.directory}/alternateLocation</outputDirectory>
+              <overWriteReleases>false</overWriteReleases>
+              <overWriteSnapshots>false</overWriteSnapshots>
+              <overWriteIfNewer>true</overWriteIfNewer>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>2.1.1</version>
+                <configuration>
+                    <warName>webapi</warName>
+                    <packagingExcludes>WEB-INF/lib/jetty-man*.jar,
+                        WEB-INF/lib/jetty-6.1.5.jar, WEB-INF/lib/jasper*.jar,
+                        WEB-INF/lib/el-api*.jar,
+                        WEB-INF/lib/jsp*.jar,
+                        WEB-INF/lib/catalina*.jar,
+                        WEB-INF/lib/july*.jar,
+                        WEB-INF/lib/servlet*.jar</packagingExcludes>
+                    <archive>
+                        <manifest>
+                            <addClasspath>true</addClasspath>
+                            <classpathPrefix>lib/</classpathPrefix>
+                        </manifest>
+                    </archive>
+                </configuration>
+            </plugin>
+            <plugin>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>2.2.1</version>
+                <configuration>
+                    <descriptors>
+                        <descriptor>bin.xml</descriptor>
+                    </descriptors>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>make-assembly</id>
+                        <goals>
+                            <goal>attached</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+	
+    
+    <dependencies>
+        <dependency>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+            <version>20090211</version>
+        </dependency>
+            
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-log4j12</artifactId>
+            <version>1.7.5</version>
+        </dependency>
+            
+        <dependency>
+            <groupId>it.unitn.disi</groupId>
+            <artifactId>smatch-webapi-model</artifactId>
+            <version>${version}</version>
+        </dependency>
+      
+
+   
+        <!-- Spring MVC -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-webmvc</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+        <!-- JETTY -->
+        <dependency>
+            <groupId>org.mortbay.jetty</groupId>
+            <artifactId>jetty</artifactId>
+            <version>6.1.24</version>
+        </dependency>
+        <dependency>
+            <groupId>org.mortbay.jetty</groupId>
+            <artifactId>jetty-util</artifactId>
+            <version>6.1.24</version>
+        </dependency>
+        <dependency>
+            <groupId>org.mortbay.jetty</groupId>
+            <artifactId>jetty-management</artifactId>
+            <version>6.1.24</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.tomcat</groupId>
+            <artifactId>jasper</artifactId>
+            <version>6.0.26</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>servlet-api</artifactId>
+                    <groupId>org.apache.tomcat</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>jstl</artifactId>
+            <version>1.2</version>
+        </dependency>
+        <!-- HTTP Client -->
+        <dependency>
+            <groupId>commons-httpclient</groupId>
+            <artifactId>commons-httpclient</artifactId>
+            <version>3.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.james</groupId>
+            <artifactId>apache-mime4j</artifactId>
+            <version>0.3</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpmime</artifactId>
+            <version>4.0.1</version>
+            <scope>compile</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>commons-fileupload</groupId>
+            <artifactId>commons-fileupload</artifactId>
+            <version>1.2</version>
+        </dependency>
+
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <version>1.2.16</version>
+        </dependency>   
+     
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.7</version>
+            <scope>test</scope>
+        </dependency>
+    
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjrt</artifactId>
+            <version>${aspectj.version}</version>
+        </dependency>
+		
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjweaver</artifactId>
+            <version>${aspectj.version}</version>
+        </dependency>
+        
+        <dependency>                 
+            <groupId>it.unitn.disi</groupId>
+            <artifactId>s-match</artifactId>
+            <version>0.9.9</version>
+        </dependency>
+                
+    </dependencies>
+
+    <scm>
+        <connection>scm:git:git://github.com/opendatatrentino/smatch-webapi-server</connection>
+        <developerConnection>scm:git:git://github.com/opendatatrentino/smatch-webapi-server</developerConnection>
+    </scm>
+    
+    <developers>
+        <developer>
+            <id>moaz</id>
+            <name>Moaz Reyad</name>
+            <email>reyad@disi.unitn.it</email>
+            <organization>DISI</organization>
+        </developer>
+        <developer>
+            <id>pravdin</id>
+            <name>Viktor Pravdin</name>
+            <email>pravdin@disi.unitn.it</email>
+            <organization>DISI</organization>
+        </developer>
+        <developer>
+            <id>marco</id>
+            <name>Marco Marasca</name>
+            <email>marasca@disi.unitn.it</email>
+            <organization>DISI</organization>
+        </developer>        
+        <developer>
+            <id>sergey</id>
+            <name>Sergey Kanshin</name>
+            <email>kanshinn@disi.unitn.it</email>
+            <organization>DISI</organization>
+        </developer>
+        <developer>
+            <id>vinay</id>
+            <name>Vinay Kumar</name>
+            <email>vkumar@disi.unitn.it</email>
+            <organization>DISI</organization>
+        </developer>      
+    </developers>
+    
+</project>
