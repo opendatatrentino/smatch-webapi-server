@@ -50,6 +50,7 @@ POST
 ||Source||Context||The source context is a root node and a list of children||Mandatory||
 ||Target||Context||The target context is a root node and a list of children||Mandatory||
 
+`
 {
 	"request": {
 		"parameters": {
@@ -69,14 +70,13 @@ POST
 		}
 	}
 }
-
+`
 
 ### Response syntax and format 
 Gives the syntax of the output, for example:
 
 The response is a json structure with the following syntax:
-{{{
-
+`
 {
 	"Correspondence": [{
 		"source": "\\luogo",
@@ -90,7 +90,7 @@ The response is a json structure with the following syntax:
 	}]
 }
 
-}}}
+`
 
 
 ### Usage scenarios 
@@ -99,15 +99,14 @@ The response is a json structure with the following syntax:
 
 Invocation URL example:
 
-{{{
+`
 Webapi/match?json={"request": {"parameters": {"Source": {"neve luogo": ["codice","nome"]},"Target": {"luogo": ["nome","latitudine","longitudine"]}}}}
-}}}
+`
 
 Response example:
  * HTTP code: 200
  * Payload:
-{{{
-[
+`
    {
 	"Correspondence": [{
 		"source": "\\luogo",
@@ -122,5 +121,4 @@ Response example:
 }
 
 
-]
-}}}
+`
