@@ -59,6 +59,13 @@ public class WebApiServer {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
+    /**
+     * Creates an instance of the Web API Server
+     * 
+     * @param contextPath The path of the context in the file system. Default is
+     * value is current path.
+     * @param port The HTTP port for the server. Default value is 9090.
+     */
     public WebApiServer(String contextPath, Integer port) {
         
         Integer serverPort = port;
@@ -78,11 +85,11 @@ public class WebApiServer {
                     requestLogHandler});
         server.setHandler(handlers);
     }
-
+    
     /**
      * Initialization of server
-     * 
-     * @throws SwebException if an error occurred
+     * @param webappDir The path of the directory for the Web Application in the
+     * file system.
      */
     public void init(String webappDir) {
         logger.trace("Starting webapp from '" + webappDir + "'");
@@ -93,7 +100,7 @@ public class WebApiServer {
     /**
      * Start server
      * 
-     * @throws Exception if an error occurred
+     * @throws InterruptedException if an error occurred
      */
     public void start() throws InterruptedException  {
         try {
@@ -106,8 +113,10 @@ public class WebApiServer {
     }
 
     /**
+     * The main function to start the server.
+     * 
      * @param args
-     * @throws Exception 
+     * @throws IOException 
      */
     public static void main(String[] args) throws IOException,
             InterruptedException {
@@ -149,7 +158,10 @@ public class WebApiServer {
         throw new IOException("Cannot find webapp dir");
     }
 
-    public class HttpLogger extends AbstractLifeCycle implements RequestLog {
+    /**
+     * A helper class for HTTP Logging
+     */    
+    private class HttpLogger extends AbstractLifeCycle implements RequestLog {
 
         private Logger log = LoggerFactory.getLogger(WebApiServer.class);
 

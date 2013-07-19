@@ -1,20 +1,21 @@
-/*******************************************************************************
+/**
+ * *****************************************************************************
  * Copyright 2012-2013 University of Trento - Department of Information
  * Engineering and Computer Science (DISI)
  *
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Lesser General Public License
- * (LGPL) version 2.1 which accompanies this distribution, and is available at
+ * All rights reserved. This program and the accompanying materials are made
+ * available under the terms of the GNU Lesser General Public License (LGPL)
+ * version 2.1 which accompanies this distribution, and is available at
  *
  * http://www.gnu.org/licenses/lgpl-2.1.html
  *
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
- * Lesser General Public License for more details.
+ * This library is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
+ * details.
  *
- ******************************************************************************/ 
-
+ *****************************************************************************
+ */
 package it.unitn.disi.smatch.webapi.server.utils;
 
 import it.unitn.disi.smatch.webapi.model.Status;
@@ -26,7 +27,7 @@ import org.springframework.stereotype.Component;
 
 /**
  * Utility methods to work with the JSON-based communication protocol
- * 
+ *
  * @author Viktor Pravdin <pravdin@disi.unitn.it>
  * @date Nov 28, 2011 3:04:35 PM
  */
@@ -37,11 +38,13 @@ public class JsonUtils {
     private String version;
 
     /**
-     * Creates a JSON response with the given body and optional request processing time
+     * Creates a JSON response with the given body and optional request
+     * processing time
+     *
      * @param body The body
      * @param requestTime The request processing time, can be null
      * @return The JSON response
-     * @throws JSONException 
+     * @throws JSONException
      */
     public JSONObject createResponse(JSONObject body, Long requestTime) throws
             JSONException {
@@ -56,6 +59,14 @@ public class JsonUtils {
         return resp;
     }
 
+    /**
+     * Creates a JSON response with the error message and code
+     *
+     * @param message the error message
+     * @param code the error code
+     * @return the JSON response with the error message and code
+     * @throws JSONException
+     */
     public JSONObject createErrorResponse(String message, Integer code) throws
             JSONException {
         JSONObject jError = new JSONObject();

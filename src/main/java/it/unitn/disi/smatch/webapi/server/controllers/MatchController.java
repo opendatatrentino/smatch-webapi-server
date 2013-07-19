@@ -43,8 +43,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 
 /**
- *
- * @author Moaz
+ * A controller to execute the match operation. It is a wrapper around S-Match 
+ * that reads input contexts and writes output correspondence in JSON format.
+ * 
+ * @author Moaz Reyad <reyad@disi.unitn.it>
+ * @date Jul 11, 2013
  */
 @Controller
 @RequestMapping()
@@ -57,7 +60,7 @@ public class MatchController extends AbstractController {
     @ResponseBody
     @RequestMapping(value = "/match", method = RequestMethod.POST)
     public 
-    JSONObject offline(@RequestBody JSONObject requestObject)
+    JSONObject match(@RequestBody JSONObject requestObject)
             throws JSONException, IOException, ConfigurableException {
 
         JSONObject jRequest = getJSONFromRequest(requestObject);
@@ -80,7 +83,7 @@ public class MatchController extends AbstractController {
         return getJSONHelper().createResponse(jMapping, RequestTimer.getTime());
     }
 
-    IContext createContext(JSONObject json) {
+    private IContext createContext(JSONObject json) {
         IContext ctx = new Context();
 
         JSONArray array = json.names();
@@ -105,7 +108,7 @@ public class MatchController extends AbstractController {
         return ctx;
     }
 
-    JSONObject renderMappingJson(IContextMapping<INode> mapping) {
+    private JSONObject renderMappingJson(IContextMapping<INode> mapping) {
 
         JSONArray jMappingList = new JSONArray();
 

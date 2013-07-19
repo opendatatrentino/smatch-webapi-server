@@ -41,12 +41,12 @@ import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
- *
+ * An abstract controller which will be extended by all controllers.  * 
  *
  * @author Sergey Kanshin <kanshin@disi.unitn.it>
  * @version Feb 24, 2011
  */
-public abstract class AbstractController implements HandlerExceptionResolver {
+public abstract class AbstractController {
 
     private Logger logger = Logger.getLogger(getClass());
     private static final String RESPONSE = "RESPONSE:\n";
@@ -59,7 +59,7 @@ public abstract class AbstractController implements HandlerExceptionResolver {
     private JsonUtils helper;
     private static final int KB = 1024;
 
-    public AbstractController() {
+    protected AbstractController() {
         helper = new JsonUtils();
     }
 
@@ -193,7 +193,7 @@ public abstract class AbstractController implements HandlerExceptionResolver {
     
     @ResponseBody
     @ExceptionHandler(JSONException.class)
-    public 
+    protected 
     JSONObject handleJSONException(JSONException e) throws JSONException {
         logger.warn(e.getMessage(), e);
         return prepareErrorResponse(e.getMessage(),
@@ -202,7 +202,7 @@ public abstract class AbstractController implements HandlerExceptionResolver {
 
     @ResponseBody
     @ExceptionHandler(IllegalArgumentException.class)
-    public 
+    protected 
     JSONObject handleIllegalArgumentException(IllegalArgumentException e) throws
             JSONException {
         logger.warn(e.getMessage(), e);
@@ -212,7 +212,7 @@ public abstract class AbstractController implements HandlerExceptionResolver {
 
     @ResponseBody
     @ExceptionHandler(IOException.class)
-    public 
+    protected 
     JSONObject handleIOException(IOException e) throws JSONException {
         logger.error(e.getMessage(), e);
         return prepareErrorResponse(e.getMessage(),
@@ -221,7 +221,7 @@ public abstract class AbstractController implements HandlerExceptionResolver {
 
     @ResponseBody
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
-    public 
+    protected 
     JSONObject handleMethodException(Exception e) throws JSONException {
         logger.error(e.getMessage(), e);
         return prepareErrorResponse(e.getMessage(),
@@ -230,25 +230,10 @@ public abstract class AbstractController implements HandlerExceptionResolver {
 
     @ResponseBody
     @ExceptionHandler(Exception.class)
-    public 
+    protected 
     JSONObject handleException(Exception e) throws JSONException {
         logger.error(e.getMessage(), e);
         return prepareErrorResponse(e.getMessage()!=null?e.getMessage():e.getClass().getName(),
                 HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-    }
-    
-    @Override
-    // TODO: method not used
-    public ModelAndView resolveException(HttpServletRequest request,
-            HttpServletResponse response, Object handler, Exception ex) {
-        logger.error(ex.getMessage(), ex);
-        ModelAndView mv = new ModelAndView("testform");
-        try {
-            mv.addObject("resp", prepareErrorResponse(ex.getMessage(),
-                    HttpServletResponse.SC_BAD_REQUEST));
-        } catch (JSONException e) {
-            logger.error(e.getMessage(), e);
-        }
-        return mv;
     }
 }
