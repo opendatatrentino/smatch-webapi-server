@@ -77,18 +77,18 @@ Gives the syntax of the output, for example:
 
 The response is a json structure with the following syntax:
 `
-{
-	"Correspondence": [{
-		"source": "\\luogo",
-		"target": "\\neve luogo",
-		"relation": ">"
-	},
 	{
-		"source": "\\luogo\\nome",
-		"target": "\\neve luogo\\nome",
-		"relation": ">"
-	}]
-}
+		"Correspondence": [{
+			"source": "\\luogo",
+			"target": "\\neve luogo",
+			"relation": ">"
+		},
+		{
+			"source": "\\luogo\\nome",
+			"target": "\\neve luogo\\nome",
+			"relation": ">"
+		}]
+	}
 
 `
 
@@ -100,25 +100,25 @@ The response is a json structure with the following syntax:
 Invocation URL example:
 
 `
-Webapi/match?json={"request": {"parameters": {"Source": {"neve luogo": ["codice","nome"]},"Target": {"luogo": ["nome","latitudine","longitudine"]}}}}
+	Webapi/match?json={"request": {"parameters": {"Source": {"neve luogo": ["codice","nome"]},"Target": {"luogo": ["nome","latitudine","longitudine"]}}}}
 `
 
 Response example:
  * HTTP code: 200
  * Payload:
 `
-   {
-	"Correspondence": [{
-		"source": "\\luogo",
-		"target": "\\neve luogo",
-		"relation": ">"
-	},
 	{
-		"source": "\\luogo\\nome",
-		"target": "\\neve luogo\\nome",
-		"relation": ">"
-	}]
-}
+		"Correspondence": [{
+			"source": "\\luogo",
+			"target": "\\neve luogo",
+			"relation": ">"
+		},
+		{
+			"source": "\\luogo\\nome",
+			"target": "\\neve luogo\\nome",
+			"relation": ">"
+		}]
+	}
 
 
 `
