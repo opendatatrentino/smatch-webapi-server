@@ -37,8 +37,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.HandlerExceptionResolver;
-import org.springframework.web.servlet.ModelAndView;
 
 /**
  * An abstract controller which will be extended by all controllers.  * 
