@@ -1,6 +1,6 @@
 = Release Notes: Name of the Module. version 1.0.0 =
 
-Date of the release: 2013/07/17 13:37:09
+Date of the release: 2013/07/25 16:01:42
 
 Design Lead: person responsible for the Conceptual/Architectural? Design of the module
 
