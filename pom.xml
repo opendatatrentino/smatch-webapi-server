@@ -4,7 +4,7 @@
 
     <groupId>it.unitn.disi</groupId>
     <artifactId>smatch-webapi-server</artifactId>
-    <version>0.9.9</version>
+    <version>1.0.0</version>
     <packaging>jar</packaging>
 
     <name>smatch-webapi-server</name>
@@ -187,7 +187,7 @@
         <dependency>
             <groupId>it.unitn.disi</groupId>
             <artifactId>smatch-webapi-model</artifactId>
-            <version>0.9.9</version>
+            <version>1.0.0</version>
         </dependency>
       
         <!-- Spring MVC -->
@@ -280,7 +280,7 @@
         <dependency>                 
             <groupId>it.unitn.disi</groupId>
             <artifactId>s-match</artifactId>
-            <version>0.9.9</version>
+            <version>0.9.12</version>
         </dependency>
                 
     </dependencies>
