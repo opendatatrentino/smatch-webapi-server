@@ -1,20 +1,21 @@
-/*******************************************************************************
+/**
+ * *****************************************************************************
  * Copyright 2012-2013 University of Trento - Department of Information
  * Engineering and Computer Science (DISI)
  *
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Lesser General Public License
- * (LGPL) version 2.1 which accompanies this distribution, and is available at
+ * All rights reserved. This program and the accompanying materials are made
+ * available under the terms of the GNU Lesser General Public License (LGPL)
+ * version 2.1 which accompanies this distribution, and is available at
  *
  * http://www.gnu.org/licenses/lgpl-2.1.html
  *
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
- * Lesser General Public License for more details.
+ * This library is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
+ * details.
  *
- ******************************************************************************/ 
-
+ *****************************************************************************
+ */
 /**
  * Service
  *
@@ -51,29 +52,29 @@ import org.slf4j.LoggerFactory;
  */
 public class WebApiServer {
 
-    private static final int DEFAULT_PORT = 9090;
-
+    /**
+     * The default port used while running the server
+     */
+    public static final int DEFAULT_PORT = 9090;
     private Server server;
-
     private WebAppContext context;
-
     private Logger logger = LoggerFactory.getLogger(getClass());
 
     /**
      * Creates an instance of the Web API Server
-     * 
+     *
      * @param contextPath The path of the context in the file system. Default is
      * value is current path.
      * @param port The HTTP port for the server. Default value is 9090.
      */
     public WebApiServer(String contextPath, Integer port) {
-        
+
         Integer serverPort = port;
-        
+
         if (null == serverPort) {
             serverPort = DEFAULT_PORT;
         }
-        
+
         server = new Server(serverPort);
         HandlerCollection handlers = new HandlerCollection();
         ContextHandlerCollection contexts = new ContextHandlerCollection();
@@ -82,12 +83,13 @@ public class WebApiServer {
         HttpLogger httpLog = new HttpLogger();
         requestLogHandler.setRequestLog(httpLog);
         handlers.setHandlers(new Handler[]{contexts, new DefaultHandler(),
-                    requestLogHandler});
+            requestLogHandler});
         server.setHandler(handlers);
     }
-    
+
     /**
      * Initialization of server
+     *
      * @param webappDir The path of the directory for the Web Application in the
      * file system.
      */
@@ -98,11 +100,11 @@ public class WebApiServer {
     }
 
     /**
-     * Start server
-     * 
+     * Starts the server
+     *
      * @throws InterruptedException if an error occurred
      */
-    public void start() throws InterruptedException  {
+    public void start() throws InterruptedException {
         try {
             server.start();
             logger.info("S-Match webapi server started");
@@ -111,12 +113,24 @@ public class WebApiServer {
             java.util.logging.Logger.getLogger(WebApiServer.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
+    /**
+     * Stops the server
+     */
+    public void stop()
+    {
+        try {
+            server.stop();
+        } catch (Exception ex) {
+            java.util.logging.Logger.getLogger(WebApiServer.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 
     /**
      * The main function to start the server.
-     * 
+     *
      * @param args
-     * @throws IOException 
+     * @throws IOException
      */
     public static void main(String[] args) throws IOException,
             InterruptedException {
@@ -134,7 +148,14 @@ public class WebApiServer {
         startServer.start();
     }
 
-    private static String getWebappDir(String[] args) throws IOException {
+    /**
+     * Finds the directory of the Web Application
+     *
+     * @param args command line arguments
+     * @return the path to the Web Application directory
+     * @throws IOException
+     */
+    public static String getWebappDir(String[] args) throws IOException {
         if (args.length > 0) {
             File dir = new File(args[0]);
             if (dir.exists()) {
@@ -160,7 +181,7 @@ public class WebApiServer {
 
     /**
      * A helper class for HTTP Logging
-     */    
+     */
     private class HttpLogger extends AbstractLifeCycle implements RequestLog {
 
         private Logger log = LoggerFactory.getLogger(WebApiServer.class);
