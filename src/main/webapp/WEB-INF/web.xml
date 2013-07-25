@@ -18,20 +18,7 @@
 		<url-pattern>/webapi/*</url-pattern>
 	</servlet-mapping>
 
-	<servlet>
-		<servlet-name>resources</servlet-name>
-		<servlet-class>it.unitn.disi.smatch.webapi.server.servlets.ResourceServlet</servlet-class>
-		<init-param>
-			<param-name>allowedResourceExtensions</param-name>
-			<param-value>jpg,bmp,png,gif,js,css,txt</param-value>
-		</init-param>
-		<load-on-startup>1</load-on-startup>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>resources</servlet-name>
-		<url-pattern>/resources/*</url-pattern>
-	</servlet-mapping>
-
+	
 	<!-- Log4j -->
 	<listener>
 		<listener-class>org.springframework.web.util.Log4jConfigListener</listener-class>
