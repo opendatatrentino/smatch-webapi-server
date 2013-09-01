@@ -5,7 +5,7 @@
     <groupId>it.unitn.disi</groupId>
     <artifactId>smatch-webapi-server</artifactId>
     <version>1.0.0</version>
-    <packaging>jar</packaging>
+    <packaging>war</packaging>
 
     <name>smatch-webapi-server</name>
     <url>http://disi.unitn.it/~knowdive</url>
@@ -15,6 +15,7 @@
         <comms.version>2.4.1-SNAPSHOT</comms.version>
         <spring.version>3.1.0.RELEASE</spring.version>
         <aspectj.version>1.6.10</aspectj.version>
+        <jettyVersion>9.0.2.v20130417</jettyVersion>
     </properties>
 
     <profiles>
@@ -168,6 +169,80 @@
                     </execution>
                 </executions>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-failsafe-plugin</artifactId>
+                <version>2.12.4</version>
+                <configuration>
+                    <includes>
+                        <include>**/*ITCase*</include>
+                    </includes>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>integration-test</goal>
+                            <goal>verify</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.12.1</version>
+                <configuration>
+                    <excludes>
+                        <exclude>**/*ITCase*</exclude>
+                    </excludes>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.cargo</groupId>
+                <artifactId>cargo-maven2-plugin</artifactId>
+                <version>1.2.2</version>
+                <configuration>
+                    <container>
+                        <containerId>jetty8x</containerId>
+                         <type>embedded</type>
+                      </container>
+                    <configuration>
+                        <type>standalone</type>
+                        <properties>
+                            <cargo.servlet.port>9090</cargo.servlet.port>
+                        </properties>
+                        <deployables>
+                            <!-- It's possible to declare multiple deployable points -->
+                            <deployable>
+                                <groupId>it.unitn.disi</groupId>
+                                <artifactId>smatch-webapi-server</artifactId>
+                                <type>war</type>
+                                <!-- used by cargo to monitor if deploying is finished -->
+                                <pingURL>http://localhost:9090/</pingURL>
+                                <properties>
+                                    <context>/</context>
+                                </properties>
+                            </deployable> 
+                        </deployables>
+                    </configuration>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>start-server</id>
+                        <phase>pre-integration-test</phase>
+                        <goals>
+                            <goal>start</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>stop-server</id>
+                        <phase>post-integration-test</phase>
+                        <goals>
+                            <goal>stop</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
     
@@ -198,9 +273,9 @@
         </dependency>
         <!-- JETTY -->
         <dependency>
-            <groupId>org.mortbay.jetty</groupId>
-            <artifactId>jetty</artifactId>
-            <version>6.1.24</version>
+            <groupId>org.eclipse.jetty</groupId>
+            <artifactId>jetty-server</artifactId>
+            <version>${jettyVersion}</version>
         </dependency>
         <dependency>
             <groupId>org.mortbay.jetty</groupId>
@@ -283,6 +358,13 @@
             <version>0.9.13-SNAPSHOT</version>
         </dependency>
                 
+        <dependency>  
+            <groupId>it.unitn.disi</groupId>
+            <artifactId>smatch-webapi-client</artifactId>
+            <version>1.0.0</version>
+            <scope>test</scope>            
+        </dependency>
+        
     </dependencies>
 
     <scm>

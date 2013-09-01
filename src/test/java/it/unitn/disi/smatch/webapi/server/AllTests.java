@@ -23,7 +23,7 @@
  * Date: Feb 9, 2010
  *
  */
-
+package it.unitn.disi.smatch.webapi.server;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;

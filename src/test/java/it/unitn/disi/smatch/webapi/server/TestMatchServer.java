@@ -16,8 +16,8 @@
  *
  *******************************************************************************
  */
+package it.unitn.disi.smatch.webapi.server;
 
-import it.unitn.disi.smatch.webapi.server.WebApiServer;
 import junit.framework.TestCase;
 
 /*

@@ -30,6 +30,7 @@ import it.unitn.disi.smatch.data.mappings.IContextMapping;
 import it.unitn.disi.smatch.data.mappings.IMappingElement;
 import it.unitn.disi.smatch.webapi.server.utils.RequestTimer;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -61,7 +62,7 @@ public class MatchController extends AbstractController {
     @RequestMapping(value = "/match", method = RequestMethod.POST)
     public 
     JSONObject match(@RequestBody JSONObject requestObject)
-            throws JSONException, IOException, ConfigurableException {
+            throws JSONException, IOException, ConfigurableException, URISyntaxException {
 
         JSONObject jRequest = getJSONFromRequest(requestObject);
         JSONObject jParams = getJSONParameters(jRequest);
