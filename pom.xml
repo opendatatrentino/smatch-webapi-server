@@ -8,7 +8,8 @@
     <packaging>war</packaging>
 
     <name>smatch-webapi-server</name>
-    <url>http://disi.unitn.it/~knowdive</url>
+    <description>A Web API Server for S-Match</description>
+    <url>https://github.com/opendatatrentino/smatch-webapi-server</url>
 	
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -18,84 +19,7 @@
         <jettyVersion>9.0.2.v20130417</jettyVersion>
     </properties>
 
-    <profiles>
-        <profile>
-            <id>documentation</id>
-            <build>
-                <plugins>
-                    <!-- GENERATE JAVADOCS -->
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-javadoc-plugin</artifactId>
-                        <version>2.9</version>
-                        <executions>               
-                            <execution>
-                                <phase>install</phase>
-                                <goals>
-                                    <goal>javadoc</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                    <!-- UPLOAD BROWSABLE JAVADOCS TO WEB SERVER -->
-                    <plugin>
-                        <groupId>org.codehaus.mojo</groupId>
-                        <artifactId>wagon-maven-plugin</artifactId>
-                        <version>1.0-beta-4</version>
-                        <executions>
-                            <execution>
-                                <phase>install</phase>
-                                <goals>
-                                    <goal>upload</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                        <configuration>
-                            <fromDir>${project.reporting.outputDirectory}/apidocs</fromDir> 
-                            <serverId>sweb-ssh</serverId>
-                            <url>scp://sweb.science.unitn.it</url>
-                            <toDir>/var/javadocs/${project.artifactId}/${project.version}</toDir>
-                        </configuration>
-                    </plugin>
-                    <!-- CREATE AND UPLOAD RELEASE NOTES AND MANUAL -->
-                    <plugin>
-                        <groupId>it.unitn.disi.tracmaven</groupId>
-                        <artifactId>tracmaven-plugin</artifactId>
-                        <version>1.4</version>
-                        <configuration>
-                            <tracUrl>https://sweb.science.unitn.it/trac/sweb/</tracUrl>
-                        </configuration>
-                        <executions>
-                            <execution>
-                                <id>generate-release-notes</id>
-                                <phase>package</phase>
-                                <goals>
-                                    <goal>release-notes</goal>
-                                </goals>
-                            </execution>
-                            <execution>
-                                <id>generate-manual</id>
-                                <phase>package</phase>
-                                <goals>
-                                    <goal>manual</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-    </profiles>
-    
     <build>
-        <extensions>
-            <!-- Allows uploading browsable javadocs to remote server -->
-            <extension>
-                <groupId>org.apache.maven.wagon</groupId>
-                <artifactId>wagon-ssh</artifactId>
-                <version>1.0-beta-7</version>
-            </extension>
-        </extensions>
         <plugins>
             <plugin>
                 <groupId>it.unitn.disi.tracmaven</groupId>
@@ -111,26 +35,6 @@
                     <target>1.6</target>
                 </configuration>
             </plugin>
-             <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-dependency-plugin</artifactId>
-        <version>2.8</version>
-        <executions>
-          <execution>
-            <id>copy-dependencies</id>
-            <phase>package</phase>
-            <goals>
-              <goal>copy-dependencies</goal>
-            </goals>
-            <configuration>
-              <outputDirectory>${project.build.directory}/alternateLocation</outputDirectory>
-              <overWriteReleases>false</overWriteReleases>
-              <overWriteSnapshots>false</overWriteSnapshots>
-              <overWriteIfNewer>true</overWriteIfNewer>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>
@@ -204,8 +108,8 @@
                 <configuration>
                     <container>
                         <containerId>jetty8x</containerId>
-                         <type>embedded</type>
-                      </container>
+                        <type>embedded</type>
+                    </container>
                     <configuration>
                         <type>standalone</type>
                         <properties>
@@ -292,7 +196,7 @@
         <dependency>
             <groupId>it.unitn.disi</groupId>
             <artifactId>smatch-webapi-model</artifactId>
-            <version>1.0.0</version>
+            <version>1.0.0-RC1</version>
         </dependency>
       
         <!-- Spring MVC -->
@@ -385,17 +289,17 @@
         <dependency>                 
             <groupId>it.unitn.disi</groupId>
             <artifactId>s-match</artifactId>
-            <version>0.9.17-SNAPSHOT</version>
+            <version>0.9.19</version>
         </dependency>
                 
         <dependency>  
             <groupId>it.unitn.disi</groupId>
             <artifactId>smatch-webapi-client</artifactId>
-            <version>1.0.0</version>
+            <version>1.0.0-RC1</version>
             <scope>test</scope>            
         </dependency>
         
-         <dependency>
+        <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>smatch-data</artifactId>
             <version>1.0</version>
@@ -408,8 +312,9 @@
     </dependencies>
 
     <scm>
+        <url>git@github.com:opendatatrentino/smatch-webapi-server.git</url>
         <connection>scm:git:git://github.com/opendatatrentino/smatch-webapi-server</connection>
-        <developerConnection>scm:git:git://github.com/opendatatrentino/smatch-webapi-server</developerConnection>
+        <developerConnection>scm:git:https://github.com/opendatatrentino/smatch-webapi-server.git</developerConnection>
     </scm>
     
     <developers>
