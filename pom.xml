@@ -9,7 +9,7 @@
   
     <groupId>it.unitn.disi</groupId>
     <artifactId>smatch-webapi-server</artifactId>
-    <version>1.0.0-RC1</version>
+    <version>1.0.0-RC2-SNAPSHOT</version>
     <packaging>war</packaging>
 
     <name>smatch-webapi-server</name>
