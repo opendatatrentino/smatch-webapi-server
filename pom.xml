@@ -28,11 +28,6 @@
     <build>
         <plugins>
             <plugin>
-                <groupId>it.unitn.disi.tracmaven</groupId>
-                <artifactId>tracmaven-plugin</artifactId>
-                <version>1.4</version>
-            </plugin>
-            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>2.3.1</version>
@@ -119,7 +114,7 @@
                     <configuration>
                         <type>standalone</type>
                         <properties>
-                            <cargo.servlet.port>9090</cargo.servlet.port>
+                            <cargo.servlet.port>8080</cargo.servlet.port>
                         </properties>
                         <deployables>
                             <!-- It's possible to declare multiple deployable points -->
@@ -128,7 +123,7 @@
                                 <artifactId>smatch-webapi-server</artifactId>
                                 <type>war</type>
                                 <!-- used by cargo to monitor if deploying is finished -->
-                                <pingURL>http://localhost:9090/</pingURL>
+                                <pingURL>http://localhost:8080/</pingURL>
                                 <properties>
                                     <context>/</context>
                                 </properties>
@@ -295,7 +290,7 @@
         <dependency>                 
             <groupId>it.unitn.disi</groupId>
             <artifactId>s-match</artifactId>
-            <version>0.9.19</version>
+            <version>0.9.21</version>
         </dependency>
                 
         <dependency>  
