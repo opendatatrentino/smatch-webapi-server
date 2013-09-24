@@ -28,6 +28,7 @@ import it.unitn.disi.smatch.data.trees.IContext;
 import it.unitn.disi.smatch.data.trees.INode;
 import it.unitn.disi.smatch.data.mappings.IContextMapping;
 import it.unitn.disi.smatch.data.mappings.IMappingElement;
+import it.unitn.disi.smatch.webapi.server.utils.Configuration;
 import it.unitn.disi.smatch.webapi.server.utils.RequestTimer;
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -63,7 +64,7 @@ public class MatchController extends AbstractController {
     public 
     JSONObject match(@RequestBody JSONObject requestObject)
             throws JSONException, IOException, ConfigurableException, URISyntaxException {
-
+        
         JSONObject jRequest = getJSONFromRequest(requestObject);
         JSONObject jParams = getJSONParameters(jRequest);
 
@@ -77,7 +78,9 @@ public class MatchController extends AbstractController {
         IContext ctxSource = createContext(jSourceContext);
         IContext ctxTarget = createContext(jTargetContext);
 
-        IContextMapping<INode> mapping = MatchManager.simpleMatch(ctxSource, ctxTarget);
+        String propertiesFile = Configuration.getString("smatch.webapi.matching.properties-file");
+
+        IContextMapping<INode> mapping = MatchManager.simpleMatch(ctxSource, ctxTarget, propertiesFile);
 
         JSONObject jMapping = renderMappingJson(mapping);
 
