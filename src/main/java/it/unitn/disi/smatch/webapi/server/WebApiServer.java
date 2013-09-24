@@ -55,7 +55,7 @@ public class WebApiServer {
     /**
      * The default port used while running the server
      */
-    public static final int DEFAULT_PORT = 9090;
+    public static final int DEFAULT_PORT = 8080;
     private Server server;
     private WebAppContext context;
     private Logger logger = LoggerFactory.getLogger(getClass());
