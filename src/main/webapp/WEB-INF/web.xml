@@ -5,7 +5,10 @@
 	id="WebApp_ID" version="2.5"
 >
 
-	<display-name>webapi</display-name>
+	<display-name>S-Match Web API Server</display-name>
+	<description>
+      This is the Web API Server for the open data version of S-Match.
+    </description>
 
 	<!-- Servlets -->
 	<servlet>
