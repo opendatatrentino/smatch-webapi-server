@@ -13,7 +13,7 @@ The Web API has three components: a server, a model and a client. To use the Web
 
 ` git clone https://github.com/opendatatrentino/smatch-webapi-server.git`
 
-You can configure the HTTP server (e.g. change the port number) from the file `smatch-webapi-server.properties` in the directory `src\main\resources\`.
+You can configure the HTTP server from the file `smatch-webapi-server.properties` in the directory `src\main\resources\`.
 
 2. Build the server
 
