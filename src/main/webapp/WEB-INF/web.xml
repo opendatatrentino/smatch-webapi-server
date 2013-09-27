@@ -18,7 +18,7 @@
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>webapi</servlet-name>
-		<url-pattern>/webapi/*</url-pattern>
+		<url-pattern>/match</url-pattern>
 	</servlet-mapping>
 
 	
